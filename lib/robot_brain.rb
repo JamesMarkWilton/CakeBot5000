@@ -12,24 +12,30 @@ class RobotBrain
   end
 
   def find_cake(grid)
-    action = nil
-    grid.each_with_index do |loc, index|
-      if loc["contents"][0] && loc["contents"][0]["type"] == "cake"
-        case index
-        when 0, 1, 2
-          action = "move_north"
-        when 3
-          action = "move_west"
-        when 5
-          action = "move_east"
-        else
-          action = "move_south"
-        end
-      else
-        action = random
-      end
+    if cardinal_cake?(grid)
+      cardinal_cake?(grid)
+    else
+      random
     end
-    action
+  end
+
+  def cardinal_cake?(grid)
+    north = grid[1]
+    south = grid[7]
+    east = grid[5]
+    west = grid[3]
+
+    if north["contents"][0] && north["contents"][0]["type"] == "cake"
+      "move_north"
+    elsif south["contents"][0] && south["contents"][0]["type"] == "cake"
+      "move_south"
+    elsif east["contents"][0] && east["contents"][0]["type"] == "cake"
+      "move_east"
+    elsif west["contents"][0] && west["contents"][0]["type"] == "cake"
+      "move_west"
+    else
+      false
+    end
   end
 
   def here_be_cake?(grid)
