@@ -13,7 +13,7 @@ class RoboBrain < MiniTest::Test
     until locs == -1
       grid[locs]["x"]= locs
       grid[locs]["y"]= locs
-      grid[locs]["contents"]= contents[locs]
+      grid[locs]["contents"] << contents[locs]
       locs -= 1
     end
     grid
@@ -21,10 +21,10 @@ class RoboBrain < MiniTest::Test
 
   def test_my_robot_moves_toward_cake
     robot = RobotBrain.new
-    assert_equal "move_north", robot.action_finder(grid_builder(3, [{}, {}, {"type" => "cake"}]))
+    assert_equal "move_north", robot.action_finder(grid_builder(5, [{}, {}, {"type" => "cake"}, {}, {"type" => "robot"}]))
   end
 
-  def test_my_robot_knows_where_he_has_been
+  def test_my_robot_knows_where_it_has_been
     robot = RobotBrain.new
     2.times do
       robot.action_finder(grid_builder(5, [{}, {}, {}, {}, {"type" => "robot"}]))
@@ -40,10 +40,18 @@ class RoboBrain < MiniTest::Test
     assert_equal [4, 4, 4, 4], places_bot_went["y"]
   end
 
-  def test_robot_eats_closest_cake
+  def test_robot_eats_if_on_cake
     robot = RobotBrain.new
 
-    assert_equal "move_north", robot.action_finder(grid_builder(5, [{"type" => "cake"}, {}, {}, {}, {"type" => "cake"}]))
-    assert_eqaul "eat_cake",   robot.action_finder(grid_builder(5, [{}, {}, {}, {}, {"type" => "cake"}]))
+    refute_equal "eat_cake", robot.action_finder(grid_builder(5, [{"type" => "cake"}, {}, {}, {}, {"type" => "robot"}]))
+    assert_equal "eat_cake",   robot.action_finder(grid_builder(5, [{}, {}, {}, {}, {"type" => "cake"}]))
+  end
+
+  def test_robot_moves_randomly
+    robot = RobotBrain.new
+    action = robot.action_finder(grid_builder(5, [{}, {}, {}, {}, {"type" => "robot"}]))
+
+    assert_match /move_(north|east|west|south)/, action
+    refute_equal "eat_cake", action
   end
 end
