@@ -1,10 +1,18 @@
 class RobotBrain
+  attr_accessor :btdt
+
+  def initialize
+    @btdt = {"x" => [], "y" => []}
+  end
+
   def action_finder(grid)
     action = nil
+    eat = nil
+
+    where_am_i(grid)
 
     grid.each_with_index do |loc, index|
-
-      if loc["contents"].length == 1 && loc["contents"][0]["type"] == "cake"
+      if loc["contents"][0] && loc["contents"][0]["type"] == "cake"
         case index
         when 0
           action = "move_north"
@@ -15,7 +23,7 @@ class RobotBrain
         when 3
           action = "move_west"
         when 4
-          action = "eat_cake"
+          eat = "eat_cake"
         when 5
           action = "move_east"
         when 6
@@ -29,6 +37,12 @@ class RobotBrain
         end
       end
     end
+    return eat if eat
     action
+  end
+
+  def where_am_i(grid)
+    btdt["x"] << grid[4]["x"]
+    btdt["y"] << grid[4]["y"]
   end
 end
