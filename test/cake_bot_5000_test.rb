@@ -1,8 +1,7 @@
 require 'cake_bot_5000'
-require 'grid_builder'
+require 'cake_bot_500/grid_builder'
 
 class RoboBrain < MiniTest::Test
-
   def test_my_robot_moves_toward_cake_if_in_a_cardinal_direction
     robot = CakeBot5000.new
     grid = CakeBot5000::GridBuilder.new

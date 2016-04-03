@@ -1,4 +1,4 @@
-require 'robot_eyes'
+require 'cake_bot_500/eyes'
 
 class CakeBot5000
   attr_accessor :visited
