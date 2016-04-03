@@ -16,18 +16,18 @@ and eats them with very little imput from me.
     E,  C, W,
     SW, S, SE
 
-- [x] Give Robot basic directions
+-[x] Give Robot basic directions
   - Move
   - Eat Cake
 
-- [x] Robot can eat cake or move toward cake if cake is close
+-[x] Robot can eat cake or move toward cake if cake is close
 
-- [] Make Robot moves on if no cake near it
+-[] Make Robot moves on if no cake near it
   - Randomly
   - Thoughtfully
 
-- [x] Robot should eat cake when it is standing on it
-- [] Robot should keep track of where it has been
+-[x] Robot should eat cake when it is standing on it
+-[] Robot should keep track of where it has been
   - Also where cakes are if close
   - Also where walls are
 
