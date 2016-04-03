@@ -15,6 +15,7 @@ class GridBuilder
     grid
   end
 
+  private
   def center_info(x, y, cake)
     grid[4]["x"]= x
     grid[4]["y"]= y
