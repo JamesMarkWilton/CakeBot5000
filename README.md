@@ -2,7 +2,8 @@ Cake Bot 5000
 -------------
 
 My instructor at CodePlatoon built a game where Robots Eat cakes!
-We interact with this Robot via an api, HTTP requests.
+The link is [here](https://github.com/JoshCheek/network_games)
+We interact with this Robot via an api.
 
 This is my atempt at making a Robot That searches out these cakes
 and eats them with very little imput from me.
