@@ -1,60 +1,46 @@
 require 'robot_brain'
+require 'grid_builder'
 
 class RoboBrain < MiniTest::Test
 
-  def grid_builder(locs, contents)
-    grid = []
-
-    locs.times do
-      grid <<  {"x" => nil, "y" => nil, "contents" => []}
-    end
-    locs -= 1
-
-    until locs == -1
-      grid[locs]["x"]= locs
-      grid[locs]["y"]= locs
-      grid[locs]["contents"] << contents[locs]
-      locs -= 1
-    end
-    grid
-  end
-
   def test_my_robot_moves_toward_cake_if_in_a_cardinal_direction
     robot = RobotBrain.new
-    assert_equal "move_north", robot.action_finder(grid_builder(9, [{}, {"type" => "cake"}, {}, {}, {"type" => "robot"}, {}, {}, {}, {}]))
-    assert_equal "move_south", robot.action_finder(grid_builder(9, [{}, {}, {}, {}, {"type" => "robot"}, {}, {}, {"type" => "cake"}, {}]))
-    assert_equal "move_east", robot.action_finder(grid_builder(9, [{}, {}, {}, {}, {"type" => "robot"}, {"type" => "cake"}, {}, {}, {}]))
-    assert_equal "move_west", robot.action_finder(grid_builder(9, [{}, {}, {}, {"type" => "cake"}, {"type" => "robot"}, {}, {}, {}, {}]))
+    grid = GridBuilder.new
+    center = [3, 4, false]
+
+    assert_equal "move_north", robot.take_action(grid.set_grid(center, {1 => "cake"}))
+    assert_equal "move_south", robot.take_action(grid.set_grid(center, {7 => "cake"}))
+    assert_equal "move_east", robot.take_action(grid.set_grid(center, {5 => "cake"}))
+    assert_equal "move_west", robot.take_action(grid.set_grid(center, {3 => "cake"}))
   end
 
   def test_my_robot_knows_where_it_has_been
     robot = RobotBrain.new
-    2.times do
-      robot.action_finder(grid_builder(9, [{}, {}, {}, {}, {"type" => "robot"}, {}, {}, {}, {}]))
-    end
-    places_bot_went = robot.btdt
-    assert_equal [4, 4], places_bot_went["x"]
+    grid = GridBuilder.new
 
-    robot = RobotBrain.new
-    4.times do
-      robot.action_finder(grid_builder(9, [{}, {}, {}, {}, {"type" => "robot"}, {}, {}, {}, {}]))
-    end
-    places_bot_went = robot.btdt
-    assert_equal [4, 4, 4, 4], places_bot_went["y"]
+    robot.take_action(grid.set_grid([0, 0, false], {1 => "cake"}))
+    robot.take_action(grid.set_grid([0, -1, true]))
+    assert_equal [0, 0], robot.btdt["x"]
+    assert_equal [0, -1], robot.btdt["y"]
   end
 
   def test_robot_eats_if_on_cake
     robot = RobotBrain.new
+    grid = GridBuilder.new
 
-    refute_equal "eat_cake", robot.action_finder(grid_builder(9, [{"type" => "cake"}, {}, {}, {}, {"type" => "robot"}, {}, {}, {}, {}]))
-    assert_equal "eat_cake",   robot.action_finder(grid_builder(9, [{}, {}, {}, {}, {"type" => "cake"}, {}, {}, {}, {}, {}]))
+    refute_equal "eat_cake", robot.take_action(grid.set_grid([3, 4, false], {1 => "cake"}))
+    assert_equal "eat_cake", robot.take_action(grid.set_grid([3, 3, true]))
   end
 
   def test_robot_moves_randomly
     robot = RobotBrain.new
-    action = robot.action_finder(grid_builder(9, [{}, {}, {}, {}, {"type" => "robot"}, {}, {}, {}, {}]))
+    grid = GridBuilder.new
 
-    assert_match /move_(north|east|west|south)/, action
-    refute_equal "eat_cake", action
+    5.times do
+      direction = robot.take_action(grid.set_grid([3, 4, false]))
+
+      assert_match /move_(north|east|west|south)/, direction
+      refute_equal "eat_cake", direction
+    end
   end
 end

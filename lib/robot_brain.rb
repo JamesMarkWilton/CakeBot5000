@@ -5,7 +5,7 @@ class RobotBrain
     @btdt = {"x" => [], "y" => []}
   end
 
-  def action_finder(grid)
+  def take_action(grid)
     where_am_i(grid)
     return "eat_cake" if here_be_cake?(grid)
     find_cake(grid)
