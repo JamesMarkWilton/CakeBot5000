@@ -1,5 +1,6 @@
 require 'rest-client'
 require 'json'
+$LOAD_PATH.unshift(File.expand_path("../../lib/", __FILE__))
 require 'cake_bot_5000'
 
 robot = CakeBot5000.new
@@ -7,9 +8,9 @@ robot = CakeBot5000.new
 loop do
   response = RestClient::Request.new(
     method: :get,
-    url: '10.10.10.61:3000/cake_eater/robots/J&M',
-    user: 'J&M',
-    password: '9iMcQs3CKO',
+    url: "#{ARGV[0]}:#{ARGV[1]}/cake_eater/robots/#{ARGV[2]}",
+    user: "#{ARGV[2]}",
+    password: "#{ARGV[3]}",
   ).execute
 
   grid = JSON.parse(response)["grid"]
@@ -17,9 +18,9 @@ loop do
 
   RestClient::Request.new(
     method: :put,
-    url: '10.10.10.61:3000/cake_eater/robots/J&M',
-    user: 'J&M',
-    password: '9iMcQs3CKO',
+    url: "#{ARGV[0]}:#{ARGV[1]}/cake_eater/robots/#{ARGV[2]}",
+    user: "#{ARGV[2]}",
+    password: "#{ARGV[3]}",
     payload: {"action":"#{action}"}
   ).execute
 end

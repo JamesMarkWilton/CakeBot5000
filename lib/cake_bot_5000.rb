@@ -1,62 +1,52 @@
+require 'robot_eyes'
+
 class CakeBot5000
-  attr_accessor :btdt
+  attr_accessor :visited
 
   def initialize
-    @btdt = {"x" => [], "y" => []}
+    @visited = []
+    @walls = []
   end
 
   def take_action(grid)
-    where_am_i(grid)
-    return "eat_cake" if here_be_cake?(grid)
-    find_cake(grid)
+    eyes = Eyes.new(grid)
+    remember_location(eyes)
+    return "eat_cake" if here_be_cake?(eyes)
+    find_cake(eyes)
   end
 
-  def find_cake(grid)
-    if cardinal_cake?(grid)
-      cardinal_cake?(grid)
+  def find_cake(eyes)
+    if cardinal_cake?(eyes)
+      cardinal_cake?(eyes)
     else
       random
     end
   end
 
-  def cardinal_cake?(grid)
-    north = grid[1]
-    south = grid[7]
-    east = grid[5]
-    west = grid[3]
-
-    if north["contents"][0] && north["contents"][0]["type"] == "cake"
+  def cardinal_cake?(eyes)
+    if eyes.look_at_contents(eyes.north) && eyes.look_at_type(eyes.north) == "cake"
       "move_north"
-    elsif south["contents"][0] && south["contents"][0]["type"] == "cake"
+    elsif eyes.look_at_contents(eyes.south) && eyes.look_at_type(eyes.south) == "cake"
       "move_south"
-    elsif east["contents"][0] && east["contents"][0]["type"] == "cake"
+    elsif eyes.look_at_contents(eyes.east) && eyes.look_at_type(eyes.east) == "cake"
       "move_east"
-    elsif west["contents"][0] && west["contents"][0]["type"] == "cake"
+    elsif eyes.look_at_contents(eyes.west) && eyes.look_at_type(eyes.west) == "cake"
       "move_west"
     else
       false
     end
   end
 
-  def here_be_cake?(grid)
-    grid[4]["contents"][0]["type"] == "cake"
+  def here_be_cake?(eyes)
+    eyes.look_at_type(eyes.center) == "cake"
   end
 
-  def where_am_i(grid)
-    btdt["x"] << grid[4]["x"]
-    btdt["y"] << grid[4]["y"]
+  def remember_location(eyes)
+    loc = [] << eyes.center["x"] << eyes.center["y"]
+    visited << loc
   end
 
   def random
-    case rand(0..4)
-    when 1
-      "move_north"
-    when 2
-      "move_south"
-    when 3
-      "move_west"
-    else
-      "move_east"
-    end
+    %w[move_north move_south move_west move_east].sample
   end
 end

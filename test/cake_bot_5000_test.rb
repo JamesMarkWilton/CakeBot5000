@@ -20,8 +20,7 @@ class RoboBrain < MiniTest::Test
 
     robot.take_action(grid.set_grid([0, 0, false], {1 => "cake"}))
     robot.take_action(grid.set_grid([0, -1, true]))
-    assert_equal [0, 0], robot.btdt["x"]
-    assert_equal [0, -1], robot.btdt["y"]
+    assert_equal [[0, 0], [0, -1]], robot.visited
   end
 
   def test_robot_eats_if_on_cake

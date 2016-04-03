@@ -4,9 +4,7 @@ class CakeBot5000
 
     def set_grid(center, around_me={})
       grid = []
-      9.times do
-        grid <<  {"x" => nil, "y" => nil, "contents" => []}
-      end
+      9.times{ grid <<  {"x" => nil, "y" => nil, "contents" => []} }
       @grid = grid
 
       center_info(center[0], center[1], center[2])
