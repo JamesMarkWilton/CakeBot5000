@@ -1,4 +1,4 @@
-class RobotBrain
+class CakeBot5000
   attr_accessor :btdt
 
   def initialize

@@ -1,8 +1,8 @@
 require 'rest-client'
 require 'json'
-require 'robot_brain'
+require 'cake_bot_5000'
 
-robot = RobotBrain.new
+robot = CakeBot5000.new
 
 loop do
   response = RestClient::Request.new(
