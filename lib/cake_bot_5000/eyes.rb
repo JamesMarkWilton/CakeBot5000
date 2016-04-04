@@ -1,21 +1,42 @@
 class CakeBot5000
   class Eyes
-    attr_reader :northwest, :north,  :northeast,
-                :west,      :center, :east,
-                :southwest, :south,  :southeast
+    attr_reader :everything, :northwest, :north,  :northeast,
+                             :west,      :center, :east,
+                             :southwest, :south,  :southeast
 
     def initialize(grid)
-      @northwest = grid[0], @north  = grid[1], @northeast = grid[2],
-      @west      = grid[3], @center = grid[4], @east      = grid[5],
-      @southwest = grid[6], @south  = grid[7], @southeast = grid[8]
+      @everything = grid
+      @northwest = grid[0]; @north  = grid[1]; @northeast = grid[2]
+      @west      = grid[3]; @center = grid[4]; @east      = grid[5]
+      @southwest = grid[6]; @south  = grid[7]; @southeast = grid[8]
     end
 
     def look_at_contents(loc)
-      loc["contents"][0]
+      return loc["contents"][0] if !loc["contents"][0].empty?
     end
 
     def look_at_type(loc)
-      loc["contents"][0]["type"]
+      return loc["contents"][0]["type"] if !loc["contents"][0].empty?
+    end
+
+    def get_coordinates(loc)
+      [] << loc["x"] << loc["y"]
+    end
+
+    def look_for(thing)
+      found_things = []
+
+      everything.each_with_index do |location, index|
+        if !location["contents"][0].empty? && location["contents"][0]["type"] == thing
+          found_things << {"locs" => get_coordinates(location), "index" => index}
+        end
+      end
+      found_things
+    end
+
+    def see_a_wall?(direction)
+      location = send(direction.to_sym)
+      return location["contents"][0]["type"] == "wall" if !location["contents"][0].empty?
     end
   end
 end

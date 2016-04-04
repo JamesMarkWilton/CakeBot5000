@@ -1,8 +1,8 @@
-class CakeBot5000
-  class GridBuilder
+class TestHelpers
+  class BuildGrid
     attr_accessor :grid
 
-    def set_grid(center, around_me={})
+    def with(center, around_me={})
       grid = []
       9.times{ grid <<  {"x" => nil, "y" => nil, "contents" => []} }
       @grid = grid

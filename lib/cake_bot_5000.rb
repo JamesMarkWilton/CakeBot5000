@@ -1,39 +1,36 @@
-require 'cake_bot_500/eyes'
+require 'cake_bot_5000/eyes'
 
 class CakeBot5000
-  attr_accessor :visited
-
-  def initialize
-    @visited = []
-    @walls = []
-  end
-
   def take_action(grid)
     eyes = Eyes.new(grid)
-    remember_location(eyes)
     return "eat_cake" if here_be_cake?(eyes)
-    find_cake(eyes)
+    move(eyes)
   end
 
-  def find_cake(eyes)
-    if cardinal_cake?(eyes)
-      cardinal_cake?(eyes)
+  def move(eyes)
+    if cake_nearby?(eyes)
+      move_toward_closet_cake(eyes)
     else
-      random
+      move_randomly(eyes)
     end
   end
 
-  def cardinal_cake?(eyes)
-    if eyes.look_at_contents(eyes.north) && eyes.look_at_type(eyes.north) == "cake"
+  def cake_nearby?(eyes)
+    !eyes.look_for("cake").empty?
+  end
+
+  def move_toward_closet_cake(eyes)
+    cakes_around_me = eyes.look_for("cake")
+
+    case cakes_around_me[0]["index"]
+    when 0, 1, 2
       "move_north"
-    elsif eyes.look_at_contents(eyes.south) && eyes.look_at_type(eyes.south) == "cake"
-      "move_south"
-    elsif eyes.look_at_contents(eyes.east) && eyes.look_at_type(eyes.east) == "cake"
-      "move_east"
-    elsif eyes.look_at_contents(eyes.west) && eyes.look_at_type(eyes.west) == "cake"
+    when 3
       "move_west"
+    when 5
+      "move_east"
     else
-      false
+      "move_south"
     end
   end
 
@@ -41,12 +38,9 @@ class CakeBot5000
     eyes.look_at_type(eyes.center) == "cake"
   end
 
-  def remember_location(eyes)
-    loc = [] << eyes.center["x"] << eyes.center["y"]
-    visited << loc
-  end
-
-  def random
-    %w[move_north move_south move_west move_east].sample
+  def move_randomly(eyes)
+    direction = %w[north south west east].sample
+    return "move_" + direction unless eyes.see_a_wall?(direction)
+    move_randomly(eyes)
   end
 end
