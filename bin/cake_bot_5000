@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 
 require 'rest-client'
 require 'json'
@@ -16,7 +16,7 @@ loop do
   ).execute
 
   grid = JSON.parse(response)["grid"]
-  action = robot.action_finder(grid)
+  action = robot.take_action(grid)
 
   RestClient::Request.new(
     method: :put,

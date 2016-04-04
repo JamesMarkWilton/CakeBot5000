@@ -13,7 +13,4 @@ class CakeBot3000
 
     talk_to_me
   end
-
-  def move
-  end
 end

@@ -1,5 +1,6 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
 
+require 'io/console'
 require 'rest-client'
 require 'json'
 $LOAD_PATH.unshift(File.expand_path("../../lib/", __FILE__))
@@ -18,13 +19,22 @@ loop do
   grid = JSON.parse(response)["grid"]
   talky_talky = robot.tell_me_what_you_see(grid)
   talk_talky.each { |words| puts words }
-  action = robot.move_here("My Input Goes Here")
+
+  input = $stdin.raw { $stdin.getc }
+  actions = {"w" => "move_north",
+             "a" => "move_west",
+             "s" => "move_south",
+             "d" => "move_east",
+             "\r" => "eat_cake",
+             "\e" => "exit"}
+  action = actions[input]
+  break if action == "exit"
 
   RestClient::Request.new(
     method: :put,
     url: "#{ARGV[0]}:#{ARGV[1]}/cake_eater/robots/#{ARGV[2]}",
     user: "#{ARGV[2]}",
     password: "#{ARGV[3]}",
-    payload: {"action":"#{action}"}
+    payload: {"action": action}
   ).execute
 end

@@ -13,13 +13,4 @@ class CakeBot3000Test < MiniTest::Test
     around_robot = robot.tell_me_what_you_see(grid.with([0, 0, false], {0 => "cake"}))
     assert_equal ["Cake to the NorthWest", "Robot to the Center"], around_robot
   end
-
-
-  def test_robot_moves_where_I_tell_it_to
-    skip
-  end
-
-  def test_robot_turns_off_when_I_tell_it_to
-    skip
-  end
 end
