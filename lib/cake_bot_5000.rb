@@ -1,6 +1,13 @@
 require 'cake_bot_5000/eyes'
 
 class CakeBot5000
+  # attr_reader :name, :server
+
+  # def initialize(info)
+    # @name = info[:name]
+    # @server = info[:server]
+  # end
+
   def take_action(grid)
     eyes = Eyes.new(grid)
     return "eat_cake" if here_be_cake?(eyes)
@@ -23,11 +30,23 @@ class CakeBot5000
     cakes_around_me = eyes.look_for("cake")
 
     case cakes_around_me[0]["index"]
-    when 0, 1, 2
+    when 0
+      "move_north" unless eyes.see_a_wall?("north")
+      "move_west"
+    when 1
       "move_north"
+    when 2
+      "move_north" unless eyes.see_a_wall?("north")
+      "move_east"
     when 3
       "move_west"
     when 5
+      "move_east"
+    when 6
+      "move_north" unless eyes.see_a_wall?("north")
+      "move_east"
+    when 8
+      "move_north" unless eyes.see_a_wall?("north")
       "move_east"
     else
       "move_south"

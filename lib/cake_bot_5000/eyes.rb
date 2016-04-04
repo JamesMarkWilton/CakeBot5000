@@ -12,11 +12,11 @@ class CakeBot5000
     end
 
     def look_at_contents(loc)
-      return loc["contents"][0] if !loc["contents"][0].empty?
+      return loc["contents"][0] if !loc["contents"].empty?
     end
 
     def look_at_type(loc)
-      return loc["contents"][0]["type"] if !loc["contents"][0].empty?
+      return loc["contents"][0]["type"] if !loc["contents"].empty?
     end
 
     def get_coordinates(loc)
@@ -27,7 +27,7 @@ class CakeBot5000
       found_things = []
 
       everything.each_with_index do |location, index|
-        if !location["contents"][0].empty? && location["contents"][0]["type"] == thing
+        if !location["contents"].empty? && location["contents"][0]["type"] == thing
           found_things << {"locs" => get_coordinates(location), "index" => index}
         end
       end
@@ -36,7 +36,7 @@ class CakeBot5000
 
     def see_a_wall?(direction)
       location = send(direction.to_sym)
-      return location["contents"][0]["type"] == "wall" if !location["contents"][0].empty?
+      return location["contents"][0]["type"] == "wall" if !location["contents"].empty?
     end
   end
 end

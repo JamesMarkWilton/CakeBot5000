@@ -18,7 +18,8 @@ loop do
 
   grid = JSON.parse(response)["grid"]
   talky_talky = robot.tell_me_what_you_see(grid)
-  talk_talky.each { |words| puts words }
+  talky_talky.each { |words| puts words }
+  puts
 
   input = $stdin.raw { $stdin.getc }
   actions = {"w" => "move_north",
@@ -35,6 +36,6 @@ loop do
     url: "#{ARGV[0]}:#{ARGV[1]}/cake_eater/robots/#{ARGV[2]}",
     user: "#{ARGV[2]}",
     password: "#{ARGV[3]}",
-    payload: {"action": action}
+    payload: {"action": action}.to_json
   ).execute
 end

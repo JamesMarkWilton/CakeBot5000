@@ -10,7 +10,7 @@ class CakeBot3000
       i_see = []
 
       around_me.each_with_index do |location, index|
-        if !location["contents"][0].empty?
+        if !location["contents"].empty?
           i_see << {"type" => location["contents"][0]["type"], "index" => index}
         end
       end

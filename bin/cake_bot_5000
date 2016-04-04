@@ -23,6 +23,6 @@ loop do
     url: "#{ARGV[0]}:#{ARGV[1]}/cake_eater/robots/#{ARGV[2]}",
     user: "#{ARGV[2]}",
     password: "#{ARGV[3]}",
-    payload: {"action":"#{action}"}
+    payload: {"action":"#{action}"}.to_json
   ).execute
 end

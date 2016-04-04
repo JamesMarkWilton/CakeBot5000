@@ -1,10 +1,12 @@
 require 'cake_bot_5000'
 require 'test_helpers/build_grid'
+require 'test_helpers/fake_server'
 
 class CakeBot5000Test < MiniTest::Test
   def test_robot_moves_toward_cake_if_it_can_see_one
     grid      = TestHelpers::BuildGrid.new
-    robot     = CakeBot5000.new
+    server    = TestHelpers::FakeServer.new
+    robot     = CakeBot5000.new name: 'wil', server: server
     center_at = [3, 4, false]
 
     assert_equal "move_north", robot.take_action(grid.with(center_at, {1 => "cake"}))
@@ -15,7 +17,8 @@ class CakeBot5000Test < MiniTest::Test
 
   def test_robot_eats_cake_if_it_is_standing_on_one
     grid  = TestHelpers::BuildGrid.new
-    robot = CakeBot5000.new
+    server    = TestHelpers::FakeServer.new
+    robot = CakeBot5000.new name: 'wil', server: server
 
     refute_equal "eat_cake", robot.take_action(grid.with([3, 4, false], {1 => "cake"}))
     assert_equal "eat_cake", robot.take_action(grid.with([3, 3, true]))
@@ -23,7 +26,8 @@ class CakeBot5000Test < MiniTest::Test
 
   def test_robot_moves_randomly_if_it_can_not_see_a_cake
     grid  = TestHelpers::BuildGrid.new
-    robot = CakeBot5000.new
+    server    = TestHelpers::FakeServer.new
+    robot = CakeBot5000.new name: 'wil', server: server
 
     5.times do
       direction = robot.take_action(grid.with([3, 4, false]))
@@ -35,7 +39,8 @@ class CakeBot5000Test < MiniTest::Test
 
   def test_robot_does_not_walk_into_a_wall
     grid  = TestHelpers::BuildGrid.new
-    robot = CakeBot5000.new
+    server    = TestHelpers::FakeServer.new
+    robot = CakeBot5000.new name: 'wil', server: server
 
     20.times do
       action = robot.take_action(grid.with([0, 0, false], {1 => "wall",
