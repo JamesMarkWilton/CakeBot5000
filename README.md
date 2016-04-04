@@ -17,9 +17,9 @@ Cake Bot 3000
 -------------
 This Robot takes it's directions directly from me.
 
-- [ ] Be able to tell robot to move up, down, left, right
-- [ ] Robot tells me what is around it
-- [ ] Be able to turn Robot Off
+- [x] Be able to tell the api to move my robot up, down, left, right
+- [x] Robot tells me what is around it
+- [x] Be able to turn Robot Off
 
 Cake Bot 5000
 -------------
