@@ -1,12 +1,9 @@
-Cake Bot 5000
+Cake Bot 3000 and 5000
 -------------
 
 My instructor at CodePlatoon built a game where Robots Eat cakes!
 The link is [here](https://github.com/JoshCheek/network_games)
 We interact with this Robot via an api.
-
-This is my atempt at making a Robot That searches out these cakes
-and eats them with very little imput from me.
 
 - The Robot can only move North, South, East, and West
   - You can only give it one movement per request
@@ -16,20 +13,31 @@ and eats them with very little imput from me.
     E,  C, W,
     SW, S, SE
 
-- [x] Give Robot basic directions
+Cake Bot 3000
+-------------
+This Robot takes it's directions directly from me.
+
+- [ ] Be able to tell robot to move up, down, left, right
+- [ ] Robot tells me what is around it
+- [ ] Be able to turn Robot Off
+
+Cake Bot 5000
+-------------
+This Robot searches out cakes and eats them
+with very little imput from me.
+
+- [x] Give Robot ability to do basic things
   - Move
   - Eat Cake
 
-- [x] Robot can eat cake or move toward cake if cake is close
-
-- [ ] Make Robot moves on if no cake near it
-  - Randomly
-  - Thoughtfully
-
 - [x] Robot should eat cake when it is standing on it
-- [ ] Robot should keep track of where it has been
-  - Also where cakes are if close
-  - Also where walls are
+- [x] Robot moves toward cake if cake is nearby
+
+- Robot moves on if no cake near it
+  - [x] Randomly
+  - [x] Robot should not walk into a wall
+  - [ ] Thoughtfully
+
 
 The Point
 ---------
