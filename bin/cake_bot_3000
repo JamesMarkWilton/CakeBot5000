@@ -3,9 +3,9 @@
 require 'rest-client'
 require 'json'
 $LOAD_PATH.unshift(File.expand_path("../../lib/", __FILE__))
-require 'cake_bot_5000'
+require 'cake_bot_3000'
 
-robot = CakeBot5000.new
+robot = CakeBot3000.new
 
 loop do
   response = RestClient::Request.new(
@@ -16,7 +16,9 @@ loop do
   ).execute
 
   grid = JSON.parse(response)["grid"]
-  action = robot.action_finder(grid)
+  talky_talky = robot.tell_me_what_you_see(grid)
+  talk_talky.each { |words| puts words }
+  action = robot.move_here("My Input Goes Here")
 
   RestClient::Request.new(
     method: :put,
